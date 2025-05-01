@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Project 2 Report: Abortion Restrictions and Travel Patterns</title>
+    <style>
+      :root {
+        --color-neutral-95: hsl(220 10% 95%);
+        --color-neutral-90: hsl(220 10% 90%);
+        --color-neutral-80: hsl(220 10% 80%);
+        --color-neutral-70: hsl(220 10% 70%);
+        --color-neutral-60: hsl(220 10% 60%);
+        --color-neutral-50: hsl(220 10% 50%);
+        --color-neutral-40: hsl(220 10% 40%);
+        --color-neutral-30: hsl(220 10% 30%);
+        --color-neutral-20: hsl(220 10% 20%);
+        --color-neutral-10: hsl(220 10% 10%);
+        --color-pro: #cc0000;
+        --color-anti: #4682b4;
+      }
+
+      html {
+        font: 100%/1.5 system-ui;
+        counter-reset: figure;
+        background: var(--color-neutral-95);
+        max-width: min(75vw, 80em);
+        margin: 0 auto;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        line-height: 1.1;
+        font-weight: 600;
+        text-wrap: balance;
+      }
+
+      h1, h2 {
+        border-bottom: 1px solid var(--color-neutral-80);
+        padding-bottom: 0.2em;
+      }
+
+      h1 {
+        margin-block: 1em 0.5rem;
+        font-size: clamp(2.5em, 150% + 2vh + 2vw, 10vmin);
+        font-weight: 800;
+      }
+
+      h1 small {
+        display: block;
+        width: fit-content;
+        padding: 0.2em 0.5em;
+        margin-inline: auto;
+        color: white;
+        background: var(--color-neutral-40);
+        font-size: 40%;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      h2 {
+        font-size: 180%;
+        color: var(--color-neutral-30);
+      }
+
+      h3 {
+        font-size: 130%;
+      }
+
+      ul, ol {
+        padding-inline-start: 2em;
+      }
+
+      li {
+        margin-bottom: 0.5em;
+      }
+
+      li::marker {
+        color: var(--color-neutral-40);
+      }
+
+      header {
+        padding-block: 1em;
+        text-align: center;
+      }
+
+      main {
+        background: white;
+        color: var(--color-neutral-20);
+        border-radius: 1rem;
+        padding: 2rem;
+      }
+
+      figure {
+        margin: 2em 0;
+        padding: 1rem;
+        border: 1px solid var(--color-neutral-80);
+        box-shadow: 0 0.1em 0.2em var(--color-neutral-90);
+        text-align: center;
+        background: white;
+      }
+
+      figcaption {
+        font: 500 90% system-ui;
+        padding: 0.5rem;
+        margin-top: 1rem;
+        counter-increment: figure;
+        text-align: center;
+      }
+
+      figcaption::before {
+        content: 'Figure ' counter(figure) ': ';
+        font-weight: bold;
+      }
+
+      .pro-fig figcaption::before {
+        color: var(--color-pro);
+      }
+
+      .anti-fig figcaption::before {
+        color: var(--color-anti);
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .rationale {
+        background-color: var(--color-neutral-95);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin: 1.5rem 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>
+        <small>Project 2</small>
+        Persuasive or Deceptive Visualization?
+      </h1>
+      <p><strong>Kevin Chen</strong> — <em>kec050@ucsd.edu</em></p>
+    </header>
+
+    <main>
+      <h2>Proposition: "States in the U.S with more abortion restrictions see more people travel out-of-state to receive care"</h2>
+
+      <section>
+        <h3 style="color: var(--color-pro);">FOR the Proposition</h3>
+
+        <figure class="pro-fig">
+          <img src="vis_pro.png" alt="Boxplot showing increasing out-of-state travel with higher restriction levels" />
+          <figcaption>States with more abortion restrictions show increased rates of out-of-state travel for abortion care. The median percentage of residents who travel out of state to receive abortions increases with each restriction level.</figcaption>
+        </figure>
+
+        <div class="rationale">
+          <p><strong>Design Decisions and Rationale:</strong></p>
+          <ul>
+            <li><strong>Color Psychology (Score: 1.5 - Mostly Earnest)</strong>
+              <ul>
+                <li>Used a red color gradient from light to dark to show increasing levels of restriction</li>
+                <li>Justification: The color progression in the box plots creates an intuitive visual hierarchy for showing abortion restriction levels. Red was chosen for its cultural association with restrictions/warnings, but doesn't distort the underlying values.</li>
+                <li>Alternative Options I Considered: A blue palette could have worked and been more neutral but less effective at communicating restriction severity.</li>
+              </ul>
+            </li>
+            
+            <li><strong>Restriction Index Calculation (Score: 2 - Fully Earnest)</strong>
+              <ul>
+                <li>Created a custom index using both clinic availability (% counties without clinic) and low clinic count.</li>
+                <li>Justification: This simple metric created from the raw dataset cleanly categorizes states while using fair and reasonable thresholds. The calculation for each state's restriction index is shown in the code, visual.py.</li>
+                <li>Alternative Options I Considered: A continuous scale, instead of indexes 0-2, would have shown more distinction. However, since I wanted to use a boxplot it would've made the boxplot comparison less clear, because there'd have to be so many more plots. Due to this, I decided a scale of 0-2 would be appropriate with 3 box plots in the visual as most effective.</li>
+              </ul>
+            </li>
+        
+            <li><strong>Trying to Make Outliers Less Apparent (Score: -0.5 - Slightly Deceptive)</strong>
+              <ul>
+                <li>Showed all data points with transparency styling rather than default boxplot outliers styling.</li>
+                <li>Justification: While the boxplot is technically showing all data, making outliers transparent makes them slightly less visually apparent than the boxes/medians. This keeps the viewer's attention on the central trend.</li>
+                <li>Alternative Options I Considered: A regular boxplot, which would have made outliers more noticeable and draw attention away from the main trends in the box plots. I also considered a regular scatterplot, but this would have created visual noise.</li>
+              </ul>
+            </li>
+        
+            <li><strong>Axis Labeling (Score: 2 - Fully Earnest)</strong>
+              <ul>
+                <li>Labeled restriction levels as "Least Restricted" to "Most Restricted"</li>
+                <li>Justification: These labels accurately reflect the custom restriction index and help viewers understand the ordinal scale correctly.</li>
+                <li>Alternative considered: Numeric labels, 0-2, would have been less helpful for helping the viewers interpret the graph.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h3 style="color: var(--color-anti);">AGAINST the Proposition</h3>
+
+        <figure class="anti-fig">
+          <img src="vis_anti.png" alt="Scatterplot showing most states have low travel rates regardless of restrictions" />
+          <figcaption>Most states show minimal out-of-state travel regardless of abortion restriction level, with only a few exceptions. The trend line shows weak correlation between restrictions and travel rates.</figcaption>
+        </figure>
+
+        <div class="rationale">
+          <p><strong>Design Decisions and Rationale:</strong></p>
+          <ul>
+            <li><strong>Strategic Data Filtering (Score: -1.5 - Mostly Deceptive)</strong>
+              <ul>
+                <li>Removed mid-range outliers (states having 20% - 40% of residents traveling out of state for abortions) for restriction levels 1-2, while keeping extreme cases (above 40%)</li>
+                <li>Justification: This highlights the clustering of most states at lower out of state travel rates while still showing important outliers. The filtering makes the weak correlation between restriction levels and % of patients traveling out of state more visually apparent.</li>
+                <li>Alternative: Showing all data points would have revealed more mid-range cases that slightly support the original proposition that more abortion restrictions leads to more out of state travel.</li>
+              </ul>
+            </li>
+        
+        
+            <li><strong>Trend Line (Score: -1 - Deceptive)</strong>
+              <ul>
+                <li>Used dashed red line to show the weak correlation in the scatterplot, which shows evidence opposing the proposition. The trend line indicates that increasing restriction level doesn't greatly increase the percentage of residents traveling out of state.</li>
+                <li>Justification: The styling draws attention to the weak positive trend in the scatterplot. The trend line is included to support that there is a weak correlation. The trend line was plotted excluding extreme outliers, making the slope less steep which shows a weaker correlation between the two factors and offers better evidence opposing the proposition.</li>
+                <li>Alternative: An alternative would be to not include this at all, but I believe that adding the trend line communicates the opposing view for the proposition more effectively.</li>
+              </ul>
+            </li>
+        
+            <li><strong>Title Framing (Score: 1 - Earnest but Persuasive)</strong>
+              <ul>
+                <li>The Title "Minimal Travel Despite More Abortion Restrictions" directly counters the original claim</li>
+                <li>Justification: The title is accurate based on the visual. The "despite" challenges the proposition rather than just presenting results.</li>
+                <li>Alternative: A neutral title like "Variation in Travel Rates Across Restriction Levels" would have been less persuasive.</li>
+              </ul>
+            </li>
+        
+            <li><strong>Explanatory Annotation (Score: 1.5 - Mostly Earnest)</strong>
+              <ul>
+                <li>Added text stating "Majority of states...show similar travel rates"</li>
+                <li>Justification: This annotation accurately summarizes the main visual pattern and helps with interpretation. The positioning near the cluster back up the point. It also is mostly earnest because in the raw dataset majority of states are in the lower travel rate (under 20%), except for the cases of outliers, some of which were removed which is why this isn't fully earnest. </li>
+                <li>Alternative: When deciding whether or not to include this annotation, I thought removing this guidance would mean more open interpretation, however, I wanted to viewer to take away this visual as opposing the original claim.</li>
+              </ul>
+            </li>
+        
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Final Reflection</h2>
+        <p>This project taught me how small and subtle design choices can significantly affect the viewer interpreting data while remaining technically accurate. My supporting visualization uses color progression and emphasis on the median to show a clear trend between restriction levels and percentage of residents traveling out of state, while the opposing visualization uses selective outlier filtering, intentional highlighting, and biased trend line to show the opposite effect that will lead the viewer to not believe in the proposition.</p>
+        
+        <p>Ethically, both visualizations use majority of data points and use proper axis scaling. The persuasive techniques mainly use emphasis and framing rather than distorting the data. The most deceptive technique I used was the selective outlier filtering in the opposing view. This is partially justified because it was done to focus attention on the central cluster of points to show low correlation.</p>
+        
+        <p>This project shows how data visualization is an intersection of statistics and story telling. Even with the same dataset, people can show different aspects of the data to tell opposing stories. The important thing is trying to maintain truth to the underlying data while being transparent about my design choices.</p>
+      </section>
+    </main>
+  </body>
+</html>
+<!--<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Project 2 Report</title>
+    <style>
+      :root {
+        --color-neutral-95: hsl(220 10% 95%);
+        --color-neutral-90: hsl(220 10% 90%);
+        --color-neutral-80: hsl(220 10% 80%);
+        --color-neutral-70: hsl(220 10% 70%);
+        --color-neutral-60: hsl(220 10% 60%);
+        --color-neutral-50: hsl(220 10% 50%);
+        --color-neutral-40: hsl(220 10% 40%);
+        --color-neutral-30: hsl(220 10% 30%);
+        --color-neutral-20: hsl(220 10% 20%);
+        --color-neutral-10: hsl(220 10% 10%);
+      }
+
+      html {
+        font: 100%/1.5 system-ui;
+        counter-reset: figure;
+        background: var(--color-neutral-95);
+        max-width: min(75vw, 80em);
+        margin: 0 auto;
+      }
+
+      /* Headings */
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        line-height: 1.1;
+        font-weight: 600;
+        text-wrap: balance;
+      }
+
+      h1,
+      h2 {
+        border-bottom: 1px solid var(--color-neutral-80);
+        padding-bottom: 0.2em;
+      }
+
+      h1 {
+        margin-block: 1em 0.5rem;
+        font-size: clamp(2.5em, 150% + 2vh + 2vw, 10vmin);
+        font-weight: 800;
+
+        small {
+          display: block;
+          width: fit-content;
+          padding: 0.2em 0.5em;
+          margin-inline: auto;
+          color: white;
+          background: var(--color-neutral-40);
+          font-size: 40%;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+      }
+
+      h2 {
+        font-size: 180%;
+        color: var(--color-neutral-30);
+      }
+
+      h3 {
+        font-size: 130%;
+      }
+
+      /* Lists */
+
+      ul,
+      ol {
+        padding-inline-start: 2em;
+      }
+
+      li {
+        &::marker {
+          color: var(--color-neutral-40);
+        }
+
+        + li {
+          margin-top: 0.2em;
+        }
+      }
+
+      /* Sectioning elements */
+
+      header {
+        padding-block: 1em;
+        text-align: center;
+      }
+
+      main {
+        background: white;
+        color: var(--color-neutral-20);
+        border-radius: 1rem;
+        padding: 0.1rem 2rem;
+      }
+
+      /* Figures */
+      figure {
+        margin: 1em 0;
+        padding: 0.5rem;
+        margin-inline: -0.5em;
+        border: 1px solid var(--color-neutral-80);
+        box-shadow: 0 0.1em 0.2em var(--color-neutral-95);
+        text-align: center;
+        background: white;
+
+        > figcaption {
+          font: 500 75% var(--font-sans);
+          background: var(--color-neutral-95);
+          padding: 0.5rem;
+          margin: -0.5rem;
+          margin-top: 0.5rem;
+          counter-increment: figure;
+          text-align: left;
+
+          &::before {
+            content: 'Figure ' counter(figure) ': ';
+            font-weight: bold;
+            color: var(--color-neutral-40);
+          }
+
+          a:not(:hover, :focus, :active) {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-color: color-mix(
+              in lab,
+              currentColor,
+              transparent 70%
+            );
+          }
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>
+        <small>Assignment 4</small>
+        Persuasive or Deceptive Visualization?
+      </h1>
+
+      <p><strong>Your Name</strong> — <em>Your UCSD Email Address</em></p>
+    </header>
+
+    <main>
+      <h2>Proposition: [STATE PROPOSITION]</h2>
+
+      <section>
+        <h3>FOR the Proposition</h3>
+
+        <figure>
+          <img src="IMAGE_FILENAME" alt="" />
+          <figcaption>BRIEF CAPTION HERE.</figcaption>
+        </figure>
+
+        <p>Design Decisions and Rationale:</p>
+
+        <ul>
+          <li>RATIONALE_1</li>
+          <li>RATIONALE_2</li>
+          <li>RATIONALE_3</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>AGAINST the Proposition</h3>
+
+        <figure>
+          <img src="IMAGE_FILENAME" alt="" />
+          <figcaption>BRIEF CAPTION HERE.</figcaption>
+        </figure>
+
+        <p>Design Decisions and Rationale:</p>
+
+        <ul>
+          <li>RATIONALE_1</li>
+          <li>RATIONALE_2</li>
+          <li>RATIONALE_3</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Final Reflection</h2>
+
+        <p>[WRITE FINAL REFLECTION PARAGRAPHS HERE.]</p>
+      </section>
+    </main>
+  </body>
+</html>
+-->
+
+<!--2 -->
+<!--
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Project 2 Report</title>
+    <style>
+      :root {
+        --color-neutral-95: hsl(220 10% 95%);
+        --color-neutral-90: hsl(220 10% 90%);
+        --color-neutral-80: hsl(220 10% 80%);
+        --color-neutral-70: hsl(220 10% 70%);
+        --color-neutral-60: hsl(220 10% 60%);
+        --color-neutral-50: hsl(220 10% 50%);
+        --color-neutral-40: hsl(220 10% 40%);
+        --color-neutral-30: hsl(220 10% 30%);
+        --color-neutral-20: hsl(220 10% 20%);
+        --color-neutral-10: hsl(220 10% 10%);
+      }
+
+      html {
+        font: 100%/1.5 system-ui;
+        counter-reset: figure;
+        background: var(--color-neutral-95);
+        max-width: min(75vw, 80em);
+        margin: 0 auto;
+      }
+
+      /* Headings */
+      h1, h2, h3, h4, h5, h6 {
+        line-height: 1.1;
+        font-weight: 600;
+        text-wrap: balance;
+      }
+
+      h1, h2 {
+        border-bottom: 1px solid var(--color-neutral-80);
+        padding-bottom: 0.2em;
+      }
+
+      h1 {
+        margin-block: 1em 0.5rem;
+        font-size: clamp(2.5em, 150% + 2vh + 2vw, 10vmin);
+        font-weight: 800;
+      }
+
+      h1 small {
+          display: block;
+          width: fit-content;
+          padding: 0.2em 0.5em;
+          margin-inline: auto;
+          color: white;
+          background: var(--color-neutral-40);
+          font-size: 40%;
+          text-transform: uppercase;
+          white-space: nowrap;
+      }
+
+      h2 {
+        font-size: 180%;
+        color: var(--color-neutral-30);
+      }
+
+      h3 {
+        font-size: 130%;
+      }
+
+      /* Lists */
+      ul, ol {
+        padding-inline-start: 2em;
+      }
+
+      li {
+        &::marker {
+          color: var(--color-neutral-40);
+        }
+        + li {
+          margin-top: 0.2em;
+        }
+      }
+
+      /* Sectioning elements */
+      header {
+        padding-block: 1em;
+        text-align: center;
+      }
+
+      main {
+        background: white;
+        color: var(--color-neutral-20);
+        border-radius: 1rem;
+        padding: 0.1rem 2rem;
+      }
+
+      /* Figures */
+      figure {
+        margin: 1em 0;
+        padding: 0.5rem;
+        margin-inline: -0.5em;
+        border: 1px solid var(--color-neutral-80);
+        box-shadow: 0 0.1em 0.2em var(--color-neutral-95);
+        text-align: center;
+        background: white;
+      }
+
+      figure > figcaption {
+          font: 500 75% sans-serif;
+          background: var(--color-neutral-95);
+          padding: 0.5rem;
+          margin: -0.5rem;
+          margin-top: 0.5rem;
+          counter-increment: figure;
+          text-align: left;
+      }
+
+      figure > figcaption::before {
+          content: 'Figure ' counter(figure) ': ';
+          font-weight: bold;
+          color: var(--color-neutral-40);
+      }
+
+      figure > figcaption a:not(:hover, :focus, :active) {
+          color: inherit;
+          text-decoration: underline;
+          text-decoration-color: color-mix(
+            in lab,
+            currentColor,
+            transparent 70%
+          );
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>
+        <small>Assignment 4</small>
+        Abortion Clinic Scarcity and Rate Trends
+      </h1>
+
+      <p><strong>Student Name</strong> — <em>student@ucsd.edu</em></p>
+    </header>
+
+    <main>
+      <h2>Proposition: States with higher percentages of counties lacking abortion clinics experienced steeper declines in abortion rates (2017-2020)</h2>
+
+      <section>
+        <h3>FOR the Proposition</h3>
+
+        <figure>
+          <img src="pro_visual1.png" alt="Scatter plot showing negative correlation between clinic scarcity and abortion rate changes" />
+          <figcaption>States with higher clinic scarcity show greater declines in abortion rates (2017-2020).</figcaption>
+        </figure>
+
+        <p>Design Decisions and Rationale:</p>
+
+        <ul>
+          <li><strong>Negative trendline (-2)</strong>: Forces a causal interpretation where only correlation exists</li>
+          <li><strong>Red highlighting (-1)</strong>: Uses alarmist color for high-scarcity states to suggest urgency</li>
+          <li><strong>Missouri annotation (1)</strong>: Fairly highlights an extreme case supporting the proposition</li>
+          <li><strong>Truncated timeframe (-1)</strong>: Only shows 2017-2020, ignoring longer-term trends</li>
+        </ul>
+
+        <figure>
+          <img src="pro_visual2.png" alt="Bar chart showing extreme declines in select states" />
+          <figcaption>States with severe clinic restrictions show dramatic abortion rate drops.</figcaption>
+        </figure>
+
+        <p>Design Decisions and Rationale:</p>
+
+        <ul>
+          <li><strong>Cherry-picked states (-1.5)</strong>: Only shows Missouri (-98%) while omitting counterexamples</li>
+          <li><strong>Red bars (-1)</strong>: Emotionally charged color choice for negative values</li>
+          <li><strong>Percentage change focus (0.5)</strong>: Emphasizes volatility over absolute rates</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>AGAINST the Proposition</h3>
+
+        <figure>
+          <img src="anti_visual1.png" alt="Bubble chart showing persistent abortion rates despite clinic scarcity" />
+          <figcaption>Abortion rates remain stable across varying levels of clinic access (2020).</figcaption>
+        </figure>
+
+        <p>Design Decisions and Rationale:</p>
+
+        <ul>
+          <li><strong>Bubble sizes (0.5)</strong>: Uses abortion volume to distract from rate patterns</li>
+          <li><strong>No trendline (2)</strong>: Avoids implying non-existent correlations</li>
+          <li><strong>Green palette (1)</strong): Neutral color scheme reduces emotional bias</li>
+          <li><strong>Current rates only (-1)</strong>: Doesn't show changes over time</li>
+        </ul>
+
+        <figure>
+          <img src="anti_visual2.png" alt="Box plot showing similar abortion rates across clinic access levels" />
+          <figcaption>Abortion rates show minimal variation across clinic access levels.</figcaption>
+        </figure>
+
+        <p>Design Decisions and Rationale:</p>
+
+        <ul>
+          <li><strong>Box plots (2)</strong>: Shows full distribution of data honestly</li>
+          <li><strong>Binned categories (1)</strong>: Simplifies complex data transparently</li>
+          <li><strong>Neutral title (0.5)</strong>: "Minimal variation" is supported by data</li>
+          <li><strong>Omitted outliers (-1)</strong>: Doesn't acknowledge Missouri's extreme case</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Final Reflection</h2>
+
+        <p>Creating these visualizations revealed how easily design choices can sway interpretation. The most deceptive technique was forcing trendlines to imply causation in the pro-visuals (-2), while the most ethical choice was using box plots to show full distributions in the anti-visuals (+2). What surprised me was how much cherry-picking examples (like highlighting Missouri but not Mississippi) could shape narratives without technically falsifying data.</p>
+
+        <p>I now define ethical visualization as maintaining transparency about both supporting and conflicting evidence. The key bound between "acceptable" and "misleading" is whether a reasonable viewer could identify the designer's framing choices. For instance, using red to highlight trends is acceptable if the color scale is labeled, but deceptive if it covertly suggests danger. Ultimately, while all visualization involves rhetorical choices, ethical practice means giving viewers tools to critically assess those choices.</p>
+      </section>
+    </main>
+  </body>
+</html>
+-->
+
