@@ -157,35 +157,28 @@
           <ul>
             <li><strong>Color Psychology (Score: 1.5 - Mostly Earnest)</strong>
               <ul>
-                <li>Used a red color gradient from light to dark to show increasing levels of restriction</li>
-                <li>Justification: The color progression in the box plots creates an intuitive visual hierarchy for showing abortion restriction levels. Red was chosen for its cultural association with restrictions/warnings, but doesn't distort the underlying values.</li>
-                <li>Alternative Options I Considered: A blue palette could have worked and been more neutral but less effective at communicating restriction severity.</li>
+                <li>In the box plot, I used a red color gradient from light to dark to show increasing levels of abortion restrictions. I used a different shade of red for each restriction index, with the shade of red getting darker as the restriction index increases.</li>
+                <li>Justification: The color progression in the box plots creates an intuitive visual hierarchy for showing abortion restriction levels. The viewer can use the color scheme as another way to understand which box plots are associated with certain abortion restriction levels. I choose red for its association with restrictions/warnings, but doesn't distort the underlying values.</li>
+                <li>Alternative Options I Considered: I was also considering other colors, such as a blue palette, or no colors at all. While this could have worked and been more neutral, I think it would be less effective at communicating restriction severity.</li>
               </ul>
             </li>
             
             <li><strong>Restriction Index Calculation (Score: 2 - Fully Earnest)</strong>
               <ul>
-                <li>Created a custom index using both clinic availability (% counties without clinic) and low clinic count.</li>
-                <li>Justification: This simple metric created from the raw dataset cleanly categorizes states while using fair and reasonable thresholds. The calculation for each state's restriction index is shown in the code, visual.py.</li>
-                <li>Alternative Options I Considered: A continuous scale, instead of indexes 0-2, would have shown more distinction. However, since I wanted to use a boxplot it would've made the boxplot comparison less clear, because there'd have to be so many more plots. Due to this, I decided a scale of 0-2 would be appropriate with 3 box plots in the visual as most effective.</li>
+                <li>I created a custom index using both clinic availability (% counties without clinic) and low clinic count that shows how strict a state's laws are on abortion. A lower index means less restrictions while higher index means more restrictions. I created this restriction index to be used as the X axis on the visual for the boxplots, as this would make it simpler to compare different levels of abortion restrictions with out of state travel rates. </li>
+                <li>Justification: This simple metric I created from the raw dataset cleanly categorizes states while using fair and reasonable thresholds. The calculation for each state's restriction index is shown in the visual.py code located in my Github repository.</li>
+                <li>Alternative Options I Considered: A continuous scale, instead of indexes 0-2, would have shown more distinction. However, since I wanted to use a boxplot it would've made the boxplot comparison less clear, because there'd have to be so many more plots. Due to this, I decided a scale of 0-2 would be appropriate, with 3 box plots in the visual as most effective.</li>
               </ul>
             </li>
         
             <li><strong>Trying to Make Outliers Less Apparent (Score: -0.5 - Slightly Deceptive)</strong>
               <ul>
-                <li>Showed all data points with transparency styling rather than default boxplot outliers styling.</li>
-                <li>Justification: While the boxplot is technically showing all data, making outliers transparent makes them slightly less visually apparent than the boxes/medians. This keeps the viewer's attention on the central trend.</li>
-                <li>Alternative Options I Considered: A regular boxplot, which would have made outliers more noticeable and draw attention away from the main trends in the box plots. I also considered a regular scatterplot, but this would have created visual noise.</li>
+                <li>In the box plots, I showed all outlier data points with transparency styling rather than default boxplot outliers styling.</li>
+                <li>Justification: While the boxplot is technically showing all data, making outliers transparent makes them slightly less apparent than the boxes/medians. This keeps the viewer's attention on the central trend.</li>
+                <li>Alternative Options I Considered: A regular boxplot, which would have made outliers more noticeable and draw attention away from the main trends in the box plots. I also considered a regular scatterplot, but this would have created a lot visual noise because there'd be too many points to show.</li>
               </ul>
             </li>
-        
-            <li><strong>Axis Labeling (Score: 2 - Fully Earnest)</strong>
-              <ul>
-                <li>Labeled restriction levels as "Least Restricted" to "Most Restricted"</li>
-                <li>Justification: These labels accurately reflect the custom restriction index and help viewers understand the ordinal scale correctly.</li>
-                <li>Alternative considered: Numeric labels, 0-2, would have been less helpful for helping the viewers interpret the graph.</li>
-              </ul>
-            </li>
+      
           </ul>
         </div>
       </section>
@@ -205,7 +198,7 @@
               <ul>
                 <li>Removed mid-range outliers (states having 20% - 40% of residents traveling out of state for abortions) for restriction levels 1-2, while keeping extreme cases (above 40%)</li>
                 <li>Justification: This highlights the clustering of most states at lower out of state travel rates while still showing important outliers. The filtering makes the weak correlation between restriction levels and % of patients traveling out of state more visually apparent.</li>
-                <li>Alternative: Showing all data points would have revealed more mid-range cases that slightly support the original proposition that more abortion restrictions leads to more out of state travel.</li>
+                <li>Alternative Options I Considered: Showing all data points would have revealed more mid-range cases that slightly support the original proposition that more abortion restrictions leads to more out of state travel.</li>
               </ul>
             </li>
         
@@ -214,23 +207,23 @@
               <ul>
                 <li>Used dashed red line to show the weak correlation in the scatterplot, which shows evidence opposing the proposition. The trend line indicates that increasing restriction level doesn't greatly increase the percentage of residents traveling out of state.</li>
                 <li>Justification: The styling draws attention to the weak positive trend in the scatterplot. The trend line is included to support that there is a weak correlation. The trend line was plotted excluding extreme outliers, making the slope less steep which shows a weaker correlation between the two factors and offers better evidence opposing the proposition.</li>
-                <li>Alternative: An alternative would be to not include this at all, but I believe that adding the trend line communicates the opposing view for the proposition more effectively.</li>
+                <li>Alternative Options I Considered: An alternative would be to not include this at all, but I believe that adding the trend line communicates the opposing view for the proposition more effectively.</li>
               </ul>
             </li>
         
-            <li><strong>Title Framing (Score: 1 - Earnest but Persuasive)</strong>
+            <li><strong>Choice of Title(Score: 1 - Earnest but Persuasive)</strong>
               <ul>
-                <li>The Title "Minimal Travel Despite More Abortion Restrictions" directly counters the original claim</li>
-                <li>Justification: The title is accurate based on the visual. The "despite" challenges the proposition rather than just presenting results.</li>
-                <li>Alternative: A neutral title like "Variation in Travel Rates Across Restriction Levels" would have been less persuasive.</li>
+                <li>The visualization's title "Minimal Travel Despite More Abortion Restrictions" directly counters the original claim, which sets the tone for this visual opposing the proposition. </li>
+                <li>Justification: The title is accurate based on the visual and challenges the proposition. The "despite" challenges the proposition rather than just presenting results.</li>
+                <li>Alternative Options I Considered: I was thinking of neutral titles like "Variation in Travel Rates Across Restriction Levels". However, a title like this would have been less persuasive.</li>
               </ul>
             </li>
         
-            <li><strong>Explanatory Annotation (Score: 1.5 - Mostly Earnest)</strong>
+            <li><strong>Annotation with Arrow To Draw Attention to Data Points(Score: 1.5 - Mostly Earnest)</strong>
               <ul>
-                <li>Added text stating "Majority of states...show similar travel rates"</li>
-                <li>Justification: This annotation accurately summarizes the main visual pattern and helps with interpretation. The positioning near the cluster back up the point. It also is mostly earnest because in the raw dataset majority of states are in the lower travel rate (under 20%), except for the cases of outliers, some of which were removed which is why this isn't fully earnest. </li>
-                <li>Alternative: When deciding whether or not to include this annotation, I thought removing this guidance would mean more open interpretation, however, I wanted to viewer to take away this visual as opposing the original claim.</li>
+                <li>I added text on the visual stating "Majority of states...show similar travel rates with an arrow pointing to a cluster of states who had medium to higher abortion rates that still had lower percentages of patients traveling out of state."</li>
+                <li>Justification: This annotation accurately summarizes the main visual pattern and helps with interpretation. The positioning near the cluster shows support opposing the proposition. It also is mostly earnest because in the raw dataset majority of states are in the lower travel rate (under 20%), except for the cases of outliers, some of which were removed which is why this isn't fully earnest. </li>
+                <li>Alternative Options I Considered: When deciding whether or not to include this annotation, I thought removing this guidance would mean more open interpretation, however, I wanted to viewer to take away this visual as opposing the original claim.</li>
               </ul>
             </li>
         

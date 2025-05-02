@@ -625,21 +625,20 @@ ax = sns.boxplot(
     palette='Reds',
     width=0.4,
     fliersize=4,
-    linewidth=1.5  # Thicker lines for better visibility
+    linewidth=1.5
 )
 
 plt.title("More Restrictions = More Out-of-State Travel for Abortions", pad=20, fontsize=14, fontweight='bold')
 plt.xlabel("Restriction Index (Higher = More Restrictions on Abortions)", fontsize=12)
 plt.ylabel("% of Patients Traveling Out-of-State", fontsize=12)
 
-# Calculate and annotate median values
 medians = data.groupby('Restriction_Index')['% of residents obtaining abortions who traveled out of state for care, 2020'].median()
 for idx, med in enumerate(medians):
-    ax.text(idx, med+1, f"Median: {med:.1f}%", 
+    y_offset = 4 if idx == 0 else 4
+    ax.text(idx, med+y_offset, f"Median: {med:.1f}%", 
             ha='center', va='bottom', fontsize=11,
             bbox=dict(facecolor='white', alpha=0.8, pad=2))
 
-# Highlight trend with arrow annotation
 plt.annotate('Clear Increasing Trend',
              xy=(2, medians[2]), xytext=(1, medians[2]+15),
              arrowprops=dict(facecolor='black', arrowstyle='->', lw=1.5),
@@ -647,18 +646,17 @@ plt.annotate('Clear Increasing Trend',
              fontsize=12)
 
 
-# Add explanatory note
 plt.text(0.5, 85, "Note: Each increasing restriction level shows higher median out-of-state travel rates",
          ha='center', va='center', fontsize=10, color='red')
 
-plt.grid(axis='y', alpha=0.2)  # Light grid for better readability
+plt.grid(axis='y', alpha=0.2)
 plt.tight_layout()
 plt.savefig("vis_pro.png", dpi=300, bbox_inches='tight')
 plt.show()
 
 
 plt.figure(figsize=(12, 7))
-# Filter data and remove most outliers for index 1 and 2
+
 filtered_data = data[
     data['Restriction_Index'].isin([0, 1, 2]) & 
     ~(
@@ -667,14 +665,13 @@ filtered_data = data[
     ))
 ]
 
-# Keep specific important outliers that challenge the narrative
 important_outliers = data[
     (data['U.S. State'].isin(['Alabama', 'Mississippi', 'South Carolina'])) |
     (data['Restriction_Index'] == 0) & 
     (data['% of residents obtaining abortions who traveled out of state for care, 2020'] > 20)
 ]
 
-# Combine filtered data with important outliers
+
 plot_data = pd.concat([filtered_data, important_outliers]).drop_duplicates()
 
 sns.regplot(
@@ -688,7 +685,6 @@ sns.regplot(
     robust=True
 )
 
-# Set explicit x-axis limits and ticks
 plt.xlim(-0.5, 2.5)
 plt.xticks([0, 1, 2], ['0 (Least Restricted)', '1', '2 (Most Restricted)'])
 
@@ -698,13 +694,11 @@ plt.ylabel("% Patients Traveling Out-of-State", fontsize=12)
 plt.legend()
 plt.grid(True, alpha=0.3)
 
-# Highlight only the most important outliers
 key_outliers = plot_data[plot_data['% of residents obtaining abortions who traveled out of state for care, 2020'] > 20]
 for i, row in key_outliers.iterrows():
     x_offset = 0.15
     y_offset = 1
     
-    # Special adjustment for South Carolina
     if row['U.S. State'] == 'South Carolina':
         x_offset = 0.2
         y_offset = 1.5
@@ -720,7 +714,6 @@ for i, row in key_outliers.iterrows():
              fontsize=9,
              bbox=dict(facecolor='white', alpha=0.7, edgecolor='none', boxstyle='round,pad=0.2'))
 
-# Add annotation explaining the pattern
 plt.annotate('Majority of states with stricter abortion rules show similar travel rates\nas less restricted states',
              xy=(1, 10), xytext=(0.5, 30),
              arrowprops=dict(facecolor='black', shrink=0.05),
